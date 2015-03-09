@@ -5,6 +5,11 @@ import java.util.List;
 import com.xy.weibocrawler.db.Weibo;
 
 public class Utils {
+	/**
+	 * WeiBo对象转化为List
+	 * @param weibo
+	 * @return
+	 */
 	@SuppressWarnings("null")
 	public static List<Object> WeiboToList(Weibo weibo) {
 		List<Object> list = null;
