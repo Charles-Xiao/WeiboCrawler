@@ -1,0 +1,106 @@
+package com.xy.weibocrawler.html;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class HtmlParser {
+
+	/**
+	 * 从一个html页面数据中parse用户昵称
+	 * 
+	 * @param html
+	 * @return
+	 */
+	public static String parseUserName(String html) {
+		Elements username = null;
+		try {
+			Document doc = Jsoup.parse(html);
+			username = doc.getElementsByTag("title");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 字符串处理，截去"的微博_微博"
+		String result = username.get(0).text();
+		result = result.substring(0, result.length() - 6);
+		return result;
+
+	}
+
+	/**
+	 * 爬取html页面中的所有微博信息
+	 * 
+	 * @param html
+	 */
+	public static void parseWeibo(String html) {
+		Elements weiboDetails = null;
+		try {
+			Document doc = Jsoup.parse(html);
+			weiboDetails = doc.getElementsByClass("WB_detail");
+			//判断页面对应用户是否是认证用户
+			Element vip = doc.select("a.icon_bed > em").first();
+			if (vip.attr("class").equals("W_icon icon_pf_approve")) {
+				System.out.println("vip用户");
+			} else {
+				System.out.println("非vip用户");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		for (Element element : weiboDetails) {
+			String weiboDetailHtml = element.html();
+			// System.out.println(weiboDetailHtml);
+			Document docDetail = Jsoup.parse(weiboDetailHtml);
+			Elements divs = docDetail.getElementsByTag("div");
+			String nickName = divs.first().attr("nick-name");
+			if (nickName.equals("")) {
+				System.out.println("转发的微博");
+			} else {
+				System.out.println(nickName);
+			}
+
+			String content = divs.first().text();
+			System.out.println(content);
+
+			String time = Jsoup.parse(divs.last().html()).getElementsByTag("a")
+					.first().attr("title");
+			System.out.println(time);
+			// TODO 爬取用户转发的微博的内容div.WB_feed_expand
+		}
+	}
+
+	public static List<String> parseUrls(String html) {
+		List<String> urlList = new ArrayList<>();
+		final String baseUrl = "http://weibo.com";
+		Elements urls = null;
+		// TODO 新浪微博异步加载会导致无法加载到下一页按钮以及一页只能读取10条左右的微博 模拟下拉滚动条操作
+		try {
+			Document doc = Jsoup.parse(html);
+			urls = doc.getElementsByClass("page next S_txt1 S_line1");
+			if (urls.size() > 0 && urls.last().text().equals("下一页")) {
+				String nextUrl = baseUrl + urls.last().attr("href");
+				urlList.add(nextUrl);
+				System.out.println(nextUrl);
+			}
+			System.out.println("nextUrl: " + urls.size());
+
+			// 获取转发的微博的原创用户链接
+			urls = doc.select("div.WB_info > a");
+			System.out.println("div.WB_info > a: " + urls.size());
+			for (Element element : urls) {
+				if (!element.attr("nick-name").equals("")) {
+					urlList.add(baseUrl + element.attr("href"));
+					System.out.println(baseUrl + element.attr("href"));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return urlList;
+	}
+}
