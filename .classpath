@@ -15,5 +15,6 @@
 	<classpathentry exported="true" kind="lib" path="libs/http-client/httpcore-4.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/commons-lang-2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/dom4j-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/xiaoyong/Desktop/htmlunit-2.14-OSGi.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
