@@ -58,6 +58,10 @@ public class HtmlClient {
         wc.getOptions().setTimeout(10000); // 设置连接超时时间 ，这里是10S。如果为0，则无限期等待
         wc.addRequestHeader("User-Agent", "spider");
         HtmlPage page = wc.getPage(url);
+        //http://bbs.csdn.net/topics/390710871
+        //http://blog.csdn.net/zhoujianfeng3/article/details/21395223
+        String response = page.getWebResponse().getContentAsString();
+        
         return page.asXml();
     }
 }
