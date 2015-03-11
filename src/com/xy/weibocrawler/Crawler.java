@@ -12,7 +12,7 @@ import com.xy.weibocrawler.html.HtmlParser;
 import com.xy.weibocrawler.utils.Constants;
 
 public class Crawler {
-	public static void main(String args[]) throws InterruptedException {
+	public static void main(String args[]) throws Exception {
 		
 		String str = "果蔬蔬菜白菜青菜白萝卜萝卜梨子食品安全过期变质超标色素健康有害有利有损致癌标准监管掺假防腐剂质量问题";
 		List<Term> parseResult = ToAnalysis.parse(str);
@@ -29,7 +29,7 @@ public class Crawler {
 		try {
 //			String html = HtmlClient.getHTML(Constants.URl_TEST)[1];
 		    String html = HtmlClient.getHTMLByUnit(Constants.URl_TEST);
-		    System.out.println(html);
+//		    System.out.println(html);
 			System.out.println(HtmlParser.parseUserName(html));
 			HtmlParser.parseWeibo(html);
 			HtmlParser.parseUrls(html);
