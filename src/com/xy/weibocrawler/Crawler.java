@@ -30,7 +30,7 @@ public class Crawler {
         initWebClient(wc);
 
         // HtmlClient.loginSinaWeibo(wc, Constants.URl_LOGIN);
-        String html = HtmlClient.getHTMLByUnit(wc, Constants.URl_TEST_V);
+        String html = HtmlClient.getHTMLByUnit(wc, Constants.URl_TEST);
         // System.out.println(HtmlParser.parseUserName(html));
          HtmlParser.parseWeibo(html);
          HtmlParser.parseUrls(html);

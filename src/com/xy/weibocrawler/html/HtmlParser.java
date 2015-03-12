@@ -33,7 +33,7 @@ public class HtmlParser {
     }
 
     /**
-     * 爬取html页面中的所有微博信息
+     * 爬取一个html页面中的所有微博信息
      * 
      * @param html
      */
@@ -92,14 +92,22 @@ public class HtmlParser {
 
             // 获取转发的微博的原创用户链接
             urls = doc.select("a[node-type=feed_list_originNick]");
-            System.out.println("urls size： " + urls.size());
             for (Element element : urls) {
                     urlList.add(baseUrl + element.attr("href"));
                     System.out.println(baseUrl + element.attr("href"));
             }
+            //获取新浪微博提供的与该用户相似的用户微博链接 
+            Element div = doc.select("div.PCD_ut_a").first();
+            Document divDoc = Jsoup.parse(div.html());
+            urls = divDoc.select("a[class=S_txt1]");
+            for (Element element : urls) {
+            	urlList.add(element.attr("href"));
+                System.out.println(element.attr("href"));
+			}
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("urlList size： " + urlList.size());
         return urlList;
     }
 }

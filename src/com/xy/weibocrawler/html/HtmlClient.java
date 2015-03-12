@@ -48,10 +48,8 @@ public class HtmlClient {
         WebResponse sectWebRes = wc.loadWebResponse(secWebReq);
         JSONObject secJson = new JSONObject(sectWebRes.getContentAsString());
         String secData = (String) secJson.get("data");
-//        HtmlParser.parseWeibo(firstData);
-//        HtmlParser.parseWeibo(secData);
 
-        // 获取分页列表，依次爬取该用户所有页面微博
+        // 获取分页列表，依次爬取该用户所有页面微博 TODO 模拟登陆之后才能获取到
         Document secDoc = Jsoup.parse(secData);
         Elements pages = secDoc.select("div.W_pages > span.list > div a");
         System.out.print("微博页数： " + pages.size());
