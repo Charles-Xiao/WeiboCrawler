@@ -7,6 +7,7 @@ import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.util.Cookie;
 
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -61,7 +62,6 @@ public class HtmlClient {
                 System.out.print("href: " + pageHref);
             }
         }
-        
         return initPage.asXml() + firstData + secData;
     }
 

@@ -42,6 +42,7 @@ public class Constants {
 	};
 
 	/** 爬虫测试URL */
+	public static final String URl_INDEX = "http://weibo.com";
 	public static final String URl_LOGIN = "http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.3.16)";
 	public static final String URl_TEST_V = "http://weibo.com/u/3632129945?is_search=0&visible=0&is_tag=0&profile_ftype=1&page=1#feedtop";
 	public static final String URl_TEST = "http://weibo.com/2262300105/profile?topnav=1&wvr=6";
