@@ -9,6 +9,7 @@ import com.xy.weibocrawler.utils.Constants;
 
 import org.ansj.domain.Term;
 import org.ansj.splitWord.analysis.ToAnalysis;
+import org.apache.http.client.params.CookiePolicy;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class Crawler {
         // HtmlClient.loginSinaWeibo(wc, Constants.URl_LOGIN);
         String html = HtmlClient.getHTMLByUnit(wc, Constants.URl_TEST);
         // System.out.println(HtmlParser.parseUserName(html));
-        HtmlParser.parseWeibo(html);
+        // HtmlParser.parseWeibo(html);
         // HtmlParser.parseUrls(html);
 
     }
@@ -46,6 +47,7 @@ public class Crawler {
         wc.getOptions().setThrowExceptionOnFailingStatusCode(false);
         wc.getOptions().setTimeout(10000); // 设置连接超时时间 ，这里是10S。如果为0，则无限期等待
         wc.addRequestHeader("User-Agent", "spider");
+        System.setProperty("apache.commons.httpclient.cookiespec", CookiePolicy.BROWSER_COMPATIBILITY);
         // 读取cookies添加到header
         // http://changfengmingzhi.blog.163.com/blog/static/16710528820136255217235/
         // http://ksblog.org/index.php?q=htmlunit-cookies-handling&id=49
@@ -55,8 +57,13 @@ public class Crawler {
         for (String str : cookiesKvs) {
             String[] kvs = str.split("=");
             wc.getCookieManager().addCookie(new Cookie(Constants.URl_TEST, kvs[0], kvs[1]));
-            System.out.println(kvs[0] + "   " + kvs[1]);
+            // System.out.println(kvs[0] + "   " + kvs[1]);
         }
+//        wc.getCookieManager()
+//                .addCookie(
+//                        new Cookie(Constants.URl_INDEX, "SUB",
+//                                "_2A254B5k2DeTxGeRM7VAS8C7NyzmIHXVbdI3-rDV8PUNbvtAPLUPSkW-Bj4LyLB-XH8D1dy1Y284opQl6Zg.."));
+        System.out.println(wc.getCookieManager().getCookies().toString());
 
     }
 
