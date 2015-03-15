@@ -1,8 +1,6 @@
 package com.xy.weibocrawler.db;
 
 public class Weibo {
-	/** 微博id */
-	private String mId;
 	/** 微博用户昵称 */
 	private String mUserName;
 	/** 微博用户是否为大V */
@@ -22,10 +20,9 @@ public class Weibo {
 	/** 微博所属种类：fruit/wine/milk */
 	private String mCategory;
 
-	public Weibo(String mId, String mUserName, boolean mIsUserVip,
+	public Weibo(String mUserName, boolean mIsUserVip,
 			String mContent, String mTime, int mFruitNum, int mWineNum,
 			int mMilkNum, int mSafetyNum, String mCategory) {
-		this.mId = mId;
 		this.mUserName = mUserName;
 		this.mIsUserVip = mIsUserVip;
 		this.mContent = mContent;
@@ -35,14 +32,6 @@ public class Weibo {
 		this.mMilkNum = mMilkNum;
 		this.mSafetyNum = mSafetyNum;
 		this.mCategory = mCategory;
-	}
-
-	public String getmId() {
-		return mId;
-	}
-
-	public void setmId(String mId) {
-		this.mId = mId;
 	}
 
 	public String getmUserName() {
@@ -119,7 +108,7 @@ public class Weibo {
 
 	@Override
 	public String toString() {
-		return "Weibo [mId=" + mId + ", mUserName=" + mUserName
+		return "Weibo [mUserName=" + mUserName
 				+ ", mIsUserVip=" + mIsUserVip + ", mContent=" + mContent
 				+ ", mTime=" + mTime + ", mFruitNum=" + mFruitNum
 				+ ", mWineNum=" + mWineNum + ", mMilkNum=" + mMilkNum

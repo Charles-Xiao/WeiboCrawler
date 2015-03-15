@@ -16,7 +16,6 @@ public class Utils {
 		if (weibo == null) {
 			return list;
 		}
-		list.add(weibo.getmId());
 		list.add(weibo.getmUserName());
 		if (weibo.ismIsUserVip()) {
 			list.add("true");

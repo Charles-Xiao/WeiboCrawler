@@ -1,6 +1,8 @@
 
 package com.xy.weibocrawler.html;
 
+import com.xy.weibocrawler.db.Weibo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,53 +35,51 @@ public class HtmlParser {
     }
 
     /**
-     * 爬取一个html页面中的所有微博信息
+     * 爬取一个html页面中的所有原创微博内容
      * 
      * @param html
      */
-    public static void parseWeibo(String html) {
+    public static List<Weibo> parseWeibo(String html) {
+        List<Weibo> weibos = new ArrayList<>();
+        boolean isVip = false;
         Elements weiboDetails = null;
-        try {
-            Document doc = Jsoup.parse(html);
-            weiboDetails = doc.getElementsByClass("WB_detail");
-            // 判断页面对应用户是否是认证用户
-            Element vip = doc.select("a.icon_bed > em").first();
-            if (vip != null && vip.attr("class").equals("W_icon icon_pf_approve")) {
-                System.out.println("vip用户");
-            } else {
-                System.out.println("非vip用户");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        Document doc = Jsoup.parse(html);
+        weiboDetails = doc.getElementsByClass("WB_detail");
+        // 判断页面对应用户是否是认证用户
+        Element vip = doc.select("a.icon_bed > em").first();
+        if (vip != null && vip.attr("class").equals("W_icon icon_pf_approve")) {
+            isVip = true;
+            System.out.println("vip用户");
         }
+
         for (Element element : weiboDetails) {
             String weiboDetailHtml = element.html();
-            // System.out.println(weiboDetailHtml);
             Document docDetail = Jsoup.parse(weiboDetailHtml);
             Elements divs = docDetail.getElementsByTag("div");
             String nickName = divs.first().attr("nick-name");
-            if (nickName.equals("")) {
-                System.out.println("转发的微博");
+            if (!nickName.equals("")) {
+                // 提取微博原创内容
+                System.out.println(nickName + "的原创微博");
+                String content = divs.first().text();
+                System.out.println(content);
+                // 提取微博发布时间
+                Elements timeElements = docDetail.select("a[node-type=feed_list_item_date]");
+                String time = timeElements.last().attr("title");
+                System.out.println(time + "\r\n");
+                weibos.add(new Weibo(nickName, isVip, content, time, 0, 0, 0, 0, null));
             } else {
-                System.out.println(nickName);
+                // TODO 是否爬取用户转发的微博的内容div.WB_feed_expand？？？
+
             }
-            // 提取微博原创内容
-            String content = divs.first().text();
-            System.out.println(content);
-            // 提取微博发布时间
-            Elements timeElements = docDetail.select("a[node-type=feed_list_item_date]");
-            String time = timeElements.last().attr("title");
-            System.out.println(time + "\r\n");
-            // TODO 爬取用户转发的微博的内容div.WB_feed_expand
+
         }
+        return weibos;
     }
 
     public static List<String> parseUrls(String html) {
         List<String> urlList = new ArrayList<>();
         final String baseUrl = "http://weibo.com";
         Elements urls = null;
-        // TODO 新浪微博异步加载会导致无法加载到下一页按钮以及一页只能读取10条左右的微博 模拟下拉滚动条操作
         try {
             Document doc = Jsoup.parse(html);
             urls = doc.getElementsByClass("page next S_txt1 S_line1");
@@ -93,17 +93,17 @@ public class HtmlParser {
             // 获取转发的微博的原创用户链接
             urls = doc.select("a[node-type=feed_list_originNick]");
             for (Element element : urls) {
-                    urlList.add(baseUrl + element.attr("href"));
-                    System.out.println(baseUrl + element.attr("href"));
+                urlList.add(baseUrl + element.attr("href"));
+                System.out.println(baseUrl + element.attr("href"));
             }
-            //获取新浪微博提供的与该用户相似的用户微博链接 
+            // 获取新浪微博提供的与该用户相似的用户微博链接
             Element div = doc.select("div.PCD_ut_a").first();
             Document divDoc = Jsoup.parse(div.html());
             urls = divDoc.select("a[class=S_txt1]");
             for (Element element : urls) {
-            	urlList.add(element.attr("href"));
+                urlList.add(element.attr("href"));
                 System.out.println(element.attr("href"));
-			}
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
