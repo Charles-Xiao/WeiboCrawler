@@ -26,14 +26,37 @@ public class AnsjUtils {
     // http://blog.csdn.net/lazy_p/article/details/7365286
     public static List<Weibo> getKeywordsNum(List<Weibo> list) {
         List<String> fruitList = Arrays.asList(Constants.getFruitsArr());
+        List<String> milkList = Arrays.asList(Constants.getMilksArr());
+        List<String> wineList = Arrays.asList(Constants.getWinesArr());
+        List<String> safetyList = Arrays.asList(Constants.getSafetyArr());
         for (Weibo weibo : list) {
             String content = weibo.getmContent();
             List<Term> parseResult = ToAnalysis.parse(content);
-            List<String> keywords = new ArrayList<>();
+            List<String> keywordsf = new ArrayList<>();
+            List<String> keywordsm = new ArrayList<>();
+            List<String> keywordsw = new ArrayList<>();
+            List<String> keywordss = new ArrayList<>();
             for (Term term : parseResult) {
-                keywords.add(term.getRealName());
+                keywordsf.add(term.getRealName());
+                keywordsm.add(term.getRealName());
+                keywordsw.add(term.getRealName());
+                keywordss.add(term.getRealName());
             }
-            keywords.retainAll(fruitList);
+            keywordsf.retainAll(fruitList);
+            int fNum = keywordsf.size();
+            System.out.println(keywordsf.toString());
+            keywordsm.retainAll(milkList);
+            int mNum = keywordsm.size();
+            keywordsw.retainAll(wineList);
+            int wNum = keywordsw.size();
+            keywordss.retainAll(safetyList);
+            int sNum = keywordss.size();
+            System.out.println(keywordss.toString());
+            weibo.setmFruitNum(fNum);
+            weibo.setmMilkNum(mNum);
+            weibo.setmWineNum(wNum);
+            weibo.setmSafetyNum(sNum);
+            System.out.println(weibo.toString());
         }
         return list;
     }
