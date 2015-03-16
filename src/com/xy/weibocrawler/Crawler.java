@@ -3,56 +3,42 @@ package com.xy.weibocrawler;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.util.Cookie;
-import com.xy.weibocrawler.db.Weibo;
 import com.xy.weibocrawler.utils.AnsjUtils;
 import com.xy.weibocrawler.utils.Constants;
 
 import org.apache.http.client.params.CookiePolicy;
-import org.nlpcn.commons.lang.util.AnsjArrays;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Crawler {
     /** 等待爬取的url队列 */
-    private static LinkedList<String> waitUrlList = new LinkedList<>();
+    public static ConcurrentLinkedQueue<String> waitUrlList = new ConcurrentLinkedQueue<>();
 
     /** 已经被爬取过的url集合 */
-    private static Set<String> crawledUrlSet = new HashSet<>();
+    public static Set<String> crawledUrlSet = new HashSet<>();
 
     public static void main(String args[]) throws Exception {
 
-        AnsjUtils.testAnsj();
-        String str = "果蔬蔬菜白菜青菜白萝卜萝卜梨子食品安全过期变质超标色素健康有害有利有损致癌标准监管掺假防腐剂质量问题";
-        Weibo weibo = new Weibo("xiao", true, str, "", 0, 0, 0, 0, null);
-        List<Weibo> weibos = new ArrayList<>();
-        weibos.add(weibo);
-        AnsjUtils.getKeywordsNum(weibos);
+//        AnsjUtils.testAnsj();
         // 初始化等待爬取url队列
         for (String url : Constants.getUrlArr()) {
             waitUrlList.offer(url);
         }
+        WebClient wc = new WebClient();
+        initWebClient(wc);
         while (!waitUrlList.isEmpty() || Thread.activeCount() > 1) {
             if (waitUrlList.peek() != null) {
-                new CrawlThread(waitUrlList.poll()).start();
-                System.out.println(waitUrlList.peekLast());
+                crawledUrlSet.add(waitUrlList.peek());
+                new CrawlThread(waitUrlList.poll(), wc).start();
+                System.out.println("Thread.activeCount(): " + Thread.activeCount());
             }
 
         }
-        System.out.println("Thread.activeCount(): " + Thread.activeCount());
-        // JDBC.INSTANCE.getDbConnection();
 
-        // WebClient wc = new WebClient();
-        // initWebClient(wc);
-        // Thread.activeCount();
         // HtmlClient.loginSinaWeibo(wc, Constants.URl_LOGIN);
-        // String html = HtmlClient.getHTMLByUnit(wc, Constants.URl_TEST);
-        // System.out.println(HtmlParser.parseUserName(html));
-        // HtmlParser.parseWeibo(html);
-        // HtmlParser.parseUrls(html);
 
     }
 

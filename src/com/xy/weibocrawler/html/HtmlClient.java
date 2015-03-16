@@ -52,16 +52,16 @@ public class HtmlClient {
 
         // 获取分页列表，依次爬取该用户所有页面微博 TODO 模拟登陆之后才能获取到
         Document secDoc = Jsoup.parse(secData);
-        Elements pages = secDoc.select("div.W_pages > span.list > div a");
-        System.out.print("微博页数： " + pages.size());
-        if (pages != null && pages.size() > 0) {
-            for (int i = pages.size() - 2; i >= 0; i--) {
-                Element page = pages.get(i);
-                String pageHref = page.attr("href");
-                // TODO 存储获取的url
-                System.out.print("href: " + pageHref);
-            }
-        }
+        // Elements pages = secDoc.select("div.W_pages > span.list > div a");
+        // System.out.print("微博页数： " + pages.size());
+        // if (pages != null && pages.size() > 0) {
+        // for (int i = pages.size() - 2; i >= 0; i--) {
+        // Element page = pages.get(i);
+        // String pageHref = page.attr("href");
+        // // TODO 存储获取的url
+        // System.out.print("href: " + pageHref);
+        // }
+        // }
         return initPage.asXml() + firstData + secData;
     }
 

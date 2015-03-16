@@ -3,13 +3,14 @@ package com.xy.weibocrawler.html;
 
 import com.xy.weibocrawler.db.Weibo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class HtmlParser {
 
@@ -39,8 +40,8 @@ public class HtmlParser {
      * 
      * @param html
      */
-    public static List<Weibo> parseWeibo(String html) {
-        List<Weibo> weibos = new ArrayList<>();
+    public static CopyOnWriteArrayList<Weibo> parseWeibo(String html) {
+        CopyOnWriteArrayList<Weibo> weibos = new CopyOnWriteArrayList<>();
         boolean isVip = false;
         Elements weiboDetails = null;
         Document doc = Jsoup.parse(html);

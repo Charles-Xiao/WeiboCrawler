@@ -13,6 +13,10 @@ import java.util.List;
 public class AnsjUtils {
     public static void testAnsj() {
         String str = "果蔬蔬菜白菜青菜白萝卜萝卜梨子食品安全过期变质超标色素健康有害有利有损致癌标准监管掺假防腐剂质量问题";
+        Weibo weibo = new Weibo("xiao", true, str, "", 0, 0, 0, 0, null);
+        List<Weibo> weibos = new ArrayList<>();
+        weibos.add(weibo);
+        AnsjUtils.getKeywordsNum(weibos);
         List<Term> parseResult = ToAnalysis.parse(str);
         System.out.println(parseResult + "\n");
         System.out.println(parseResult.get(1).getRealName());
@@ -51,12 +55,18 @@ public class AnsjUtils {
             int wNum = keywordsw.size();
             keywordss.retainAll(safetyList);
             int sNum = keywordss.size();
-            System.out.println(keywordss.toString());
-            weibo.setmFruitNum(fNum);
-            weibo.setmMilkNum(mNum);
-            weibo.setmWineNum(wNum);
-            weibo.setmSafetyNum(sNum);
-            System.out.println(weibo.toString());
+            //去除主题无关的weibo
+            if (fNum == 0 && mNum == 0 && wNum == 0 && sNum == 0) {
+                list.remove(weibo);
+            } else {
+                weibo.setmFruitNum(fNum);
+                weibo.setmMilkNum(mNum);
+                weibo.setmWineNum(wNum);
+                weibo.setmSafetyNum(sNum);
+                System.out.println("关键词： " + keywordss.toString());
+                System.out.println("主题相关微博： " + weibo.toString());
+            }
+           
         }
         return list;
     }
