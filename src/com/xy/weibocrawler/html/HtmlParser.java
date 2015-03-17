@@ -82,33 +82,37 @@ public class HtmlParser {
         final String baseUrl = "http://weibo.com";
         Elements urls = null;
         try {
+
             Document doc = Jsoup.parse(html);
             urls = doc.getElementsByClass("page next S_txt1 S_line1");
-            if (urls.size() > 0 && urls.last().text().equals("下一页")) {
-                String nextUrl = baseUrl + urls.last().attr("href");
-                urlList.add(nextUrl);
-                System.out.println(nextUrl);
-            }
-            System.out.println("nextUrl: " + urls.size());
+            // TODO 爬取下一页链接
+            // if (urls.size() > 0 && urls.last().text().equals("下一页")) {
+            // String nextUrl = baseUrl + urls.last().attr("href");
+            // urlList.add(nextUrl);
+            // System.out.println(nextUrl);
+            // }
+            // System.out.println("nextUrl: " + urls.size());
 
             // 获取转发的微博的原创用户链接
             urls = doc.select("a[node-type=feed_list_originNick]");
             for (Element element : urls) {
                 urlList.add(baseUrl + element.attr("href"));
-                System.out.println(baseUrl + element.attr("href"));
+                // System.out.println(baseUrl + element.attr("href"));
             }
             // 获取新浪微博提供的与该用户相似的用户微博链接
             Element div = doc.select("div.PCD_ut_a").first();
-            Document divDoc = Jsoup.parse(div.html());
-            urls = divDoc.select("a[class=S_txt1]");
-            for (Element element : urls) {
-                urlList.add(element.attr("href"));
-                System.out.println(element.attr("href"));
+            if (div != null) {
+                Document divDoc = Jsoup.parse(div.html());
+                urls = divDoc.select("a[class=S_txt1]");
+                for (Element element : urls) {
+                    urlList.add(element.attr("href"));
+                    // System.out.println(element.attr("href"));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("urlList size： " + urlList.size());
+        System.out.println("当前页面爬取到的urlList size： " + urlList.size());
         return urlList;
     }
 }

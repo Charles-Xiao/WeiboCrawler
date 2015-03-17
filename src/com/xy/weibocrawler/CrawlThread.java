@@ -28,13 +28,13 @@ public class CrawlThread extends Thread {
             List<Weibo> weibos = HtmlParser.parseWeibo(html);
             AnsjUtils.getKeywordsNum(weibos);
             // 数据库插入主题相关微博
-            JDBC.INSTANCE.getDbConnection();
             String sql = "insert into weiboinfo (name,vip,content,time,fruitnum,winenum,milknum,safetynum,category) values (?,?,?,?,?,?,?,?,?)";
             for (Weibo weibo : weibos) {
-                System.out.println("数据库插入操作： " + weibo.toString());
-                JDBC.INSTANCE.dbInsertBySQL(sql, Utils.WeiboToList(weibo));
+                if (JDBC.INSTANCE.dbInsertBySQL(sql, Utils.WeiboToList(weibo))) {
+                    System.out.println("weibo插入数据库： " + weibo.toString());
+                }
+                
             }
-            JDBC.INSTANCE.dbClose();
 
             List<String> urls = HtmlParser.parseUrls(html);
             // 去除重复和已经爬取过的url,有效url加入waitUrlList
@@ -46,7 +46,7 @@ public class CrawlThread extends Thread {
                 }
             }
 
-            System.out.println("CrawlThread.run()");
+            System.out.println("CrawlThread run() activeCount: " + Thread.activeCount());
         } catch (Exception e) {
             e.printStackTrace();
         }

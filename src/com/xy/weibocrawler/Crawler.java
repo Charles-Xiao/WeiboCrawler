@@ -3,8 +3,11 @@ package com.xy.weibocrawler;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.util.Cookie;
+import com.xy.weibocrawler.db.JDBC;
+import com.xy.weibocrawler.db.Weibo;
 import com.xy.weibocrawler.utils.AnsjUtils;
 import com.xy.weibocrawler.utils.Constants;
+import com.xy.weibocrawler.utils.Utils;
 
 import org.apache.http.client.params.CookiePolicy;
 
@@ -12,6 +15,9 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Crawler {
     /** 等待爬取的url队列 */
@@ -22,21 +28,33 @@ public class Crawler {
 
     public static void main(String args[]) throws Exception {
 
-//        AnsjUtils.testAnsj();
+        // AnsjUtils.testAnsj();
         // 初始化等待爬取url队列
         for (String url : Constants.getUrlArr()) {
             waitUrlList.offer(url);
         }
+        // 初始化httpunit模块
         WebClient wc = new WebClient();
         initWebClient(wc);
-        while (!waitUrlList.isEmpty() || Thread.activeCount() > 1) {
-            if (waitUrlList.peek() != null) {
-                crawledUrlSet.add(waitUrlList.peek());
-                new CrawlThread(waitUrlList.poll(), wc).start();
-                System.out.println("Thread.activeCount(): " + Thread.activeCount());
-            }
 
-        }
+        JDBC.INSTANCE.getDbConnection();
+        String sql = "insert into weiboinfo (name,vip,content,time,fruitnum,winenum,milknum,safetynum,category) values (?,?,?,?,?,?,?,?,?)";
+        Weibo weibo = new Weibo("xiaoyong", true, "#媒体爆点# 过期4年半的米酒还在卖？粗心市民投诉无门", "2015", 0, 0, 0, 0, "wine");
+        JDBC.INSTANCE.dbInsertBySQL(sql, Utils.WeiboToList(weibo));
+        //多线程爬取线程池
+//        ExecutorService pool = Executors.newFixedThreadPool(50);
+//        
+//        while (!waitUrlList.isEmpty() || Thread.activeCount() > 1) {
+//            if (waitUrlList.peek() != null) {
+//                crawledUrlSet.add(waitUrlList.peek());
+//                CrawlThread crawlThread = new CrawlThread(waitUrlList.poll(), wc);
+//                pool.execute(crawlThread);
+//                System.out.println("Thread.activeCount(): " + Thread.activeCount());
+//            }
+//
+//        }
+//        pool.shutdown();
+        JDBC.INSTANCE.dbClose();
 
         // HtmlClient.loginSinaWeibo(wc, Constants.URl_LOGIN);
 

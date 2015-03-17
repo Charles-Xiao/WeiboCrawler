@@ -31,8 +31,8 @@ public class HtmlClient {
     public static String getHTMLByUnit(WebClient wc, String url) throws Exception {
 
         HtmlPage initPage = wc.getPage(url);
-        String domain = getMatcher("domain']='([\\d]+)", initPage.asXml().substring(2000, 5000));  
-        String page_id = getMatcher("page_id']='([\\d]+)", initPage.asXml().substring(2000, 5000));
+        String domain = getMatcher("domain']='([\\d]+)", initPage.asXml());  
+        String page_id = getMatcher("page_id']='([\\d]+)", initPage.asXml());
         // http://bbs.csdn.net/topics/390710871
         // http://blog.csdn.net/zhoujianfeng3/article/details/21395223
         

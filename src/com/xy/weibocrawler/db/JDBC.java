@@ -79,6 +79,7 @@ public enum JDBC {
 
     /**
      * 数据库插入新数据(不重复插入)操作
+     * 
      * @param sql
      * @param params
      * @return
@@ -90,7 +91,9 @@ public enum JDBC {
         mPstmt = mConnection.prepareStatement(querySql);
         mPstmt.setObject(1, params.get(2));
         mResultSet = mPstmt.executeQuery();
-        if (mResultSet.next()) {
+        mResultSet.next();
+        System.out.println("JDBC.dbInsertBySQL() count: " + mResultSet.getInt(1));
+        if (mResultSet.getInt(1) > 0) {
             return false;
         } else {
             mPstmt = mConnection.prepareStatement(sql);

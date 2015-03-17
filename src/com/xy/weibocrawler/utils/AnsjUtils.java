@@ -48,7 +48,6 @@ public class AnsjUtils {
             }
             keywordsf.retainAll(fruitList);
             int fNum = keywordsf.size();
-            System.out.println(keywordsf.toString());
             keywordsm.retainAll(milkList);
             int mNum = keywordsm.size();
             keywordsw.retainAll(wineList);
@@ -56,14 +55,13 @@ public class AnsjUtils {
             keywordss.retainAll(safetyList);
             int sNum = keywordss.size();
             //去除主题无关的weibo
-            if (fNum == 0 && mNum == 0 && wNum == 0 && sNum == 0) {
+            if (fNum == 0 && mNum == 0 && wNum == 0 || sNum == 0) {
                 list.remove(weibo);
             } else {
                 weibo.setmFruitNum(fNum);
                 weibo.setmMilkNum(mNum);
                 weibo.setmWineNum(wNum);
                 weibo.setmSafetyNum(sNum);
-                System.out.println("关键词： " + keywordss.toString());
                 System.out.println("主题相关微博： " + weibo.toString());
             }
            

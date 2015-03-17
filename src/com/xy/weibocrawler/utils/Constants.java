@@ -11,7 +11,7 @@ public class Constants {
     private static final String[] FRUITS_ARR = {
             "果蔬", "水果", "蔬菜", "柑橘", "菠萝", "芒果", "柠檬", "葡萄", "西瓜", "梨", "梨子", "苹果", "香蕉", "西红柿",
             "冬瓜", "南瓜", "萝卜", "胡萝卜", "白萝卜", "白菜", "黄瓜", "玉米", "大豆", "番薯", "青菜", "莲藕", "茄子", "辣椒",
-            "番茄", "马铃薯", "洋葱"
+            "番茄", "马铃薯", "洋葱", "蘑菇", ""
     };
 
     public static final String[] getFruitsArr() {
@@ -51,7 +51,8 @@ public class Constants {
     private static final String[] URL_ARR = {
             "http://weibo.com/u/3632129945",
             "http://weibo.com/u/3276450133#_loginLayer_1426411111788",
-            "http://weibo.com/u/5359649889", "http://weibo.com/u/2104251977"
+            "http://weibo.com/u/5359649889", "http://weibo.com/xtjtjyjst?from=usercardnew",
+            "http://weibo.com/foodstandard?from=hissimilar_home"
     };
 
     public static final String[] getUrlArr() {
