@@ -38,22 +38,19 @@ public class Crawler {
         initWebClient(wc);
 
         JDBC.INSTANCE.getDbConnection();
-        String sql = "insert into weiboinfo (name,vip,content,time,fruitnum,winenum,milknum,safetynum,category) values (?,?,?,?,?,?,?,?,?)";
-        Weibo weibo = new Weibo("xiaoyong", true, "#媒体爆点# 过期4年半的米酒还在卖？粗心市民投诉无门", "2015", 0, 0, 0, 0, "wine");
-        JDBC.INSTANCE.dbInsertBySQL(sql, Utils.WeiboToList(weibo));
-        //多线程爬取线程池
-//        ExecutorService pool = Executors.newFixedThreadPool(50);
-//        
-//        while (!waitUrlList.isEmpty() || Thread.activeCount() > 1) {
-//            if (waitUrlList.peek() != null) {
-//                crawledUrlSet.add(waitUrlList.peek());
-//                CrawlThread crawlThread = new CrawlThread(waitUrlList.poll(), wc);
-//                pool.execute(crawlThread);
-//                System.out.println("Thread.activeCount(): " + Thread.activeCount());
-//            }
-//
-//        }
-//        pool.shutdown();
+        // 多线程爬取线程池
+        ExecutorService pool = Executors.newFixedThreadPool(10);
+
+        while (!waitUrlList.isEmpty() || Thread.activeCount() > 1) {
+            if (waitUrlList.peek() != null) {
+                crawledUrlSet.add(waitUrlList.peek());
+                CrawlThread crawlThread = new CrawlThread(waitUrlList.poll(), wc);
+                pool.execute(crawlThread);
+                System.out.println("Thread.activeCount(): " + Thread.activeCount());
+            }
+
+        }
+        pool.shutdown();
         JDBC.INSTANCE.dbClose();
 
         // HtmlClient.loginSinaWeibo(wc, Constants.URl_LOGIN);
@@ -66,7 +63,7 @@ public class Crawler {
         // wc.setAjaxController(new NicelyResynchronizingAjaxController());
         wc.getOptions().setThrowExceptionOnScriptError(false); // js运行错误时，是否抛出异常
         wc.getOptions().setThrowExceptionOnFailingStatusCode(false);
-        wc.getOptions().setTimeout(10000); // 设置连接超时时间 ，这里是10S。如果为0，则无限期等待
+        wc.getOptions().setTimeout(5000); // 设置连接超时时间 ，这里是10S。如果为0，则无限期等待
         wc.addRequestHeader("User-Agent", "spider");
         System.setProperty("apache.commons.httpclient.cookiespec",
                 CookiePolicy.BROWSER_COMPATIBILITY);
@@ -85,7 +82,7 @@ public class Crawler {
         // .addCookie(
         // new Cookie(Constants.URl_INDEX, "SUB",
         // "_2A254B5k2DeTxGeRM7VAS8C7NyzmIHXVbdI3-rDV8PUNbvtAPLUPSkW-Bj4LyLB-XH8D1dy1Y284opQl6Zg.."));
-        System.out.println(wc.getCookieManager().getCookies().toString());
+        // System.out.println(wc.getCookieManager().getCookies().toString());
 
     }
 
