@@ -4,6 +4,7 @@ package com.xy.weibocrawler.utils;
 import com.xy.weibocrawler.db.Weibo;
 
 import org.ansj.domain.Term;
+import org.ansj.library.UserDefineLibrary;
 import org.ansj.splitWord.analysis.ToAnalysis;
 
 import java.util.ArrayList;
@@ -11,8 +12,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AnsjUtils {
+    
+    /**
+     * 用户添加自定义词典
+     */
+    public static void userDefineLib() {
+        
+    }
     public static void testAnsj() {
-        String str = "果蔬蔬菜白菜青菜白萝卜萝卜梨子食品安全过期变质超标色素健康有害有利有损致癌标准监管掺假防腐剂质量问题";
+        UserDefineLibrary.insertWord("地沟油", "UD_safety", 1000);   //[自定义词]  [词性]  [词频]
+        UserDefineLibrary.insertWord("保健食品食品", "UD_safety", 1000);
+        String str = "保健食品食品保健地沟油油地沟果蔬蔬菜白菜青菜白萝卜萝卜梨子食品安全过期变质超标色素健康有害有利有损致癌标准监管掺假防腐剂质量问题";
         Weibo weibo = new Weibo("xiao", true, str, "", 0, 0, 0, 0, null);
         List<Weibo> weibos = new ArrayList<>();
         weibos.add(weibo);

@@ -66,7 +66,7 @@ public enum JDBC {
      * @return
      * @throws SQLException
      */
-    public boolean dbUpdateBySQL(String sql, List<Object> params) throws SQLException {
+    public synchronized boolean dbUpdateBySQL(String sql, List<Object> params) throws SQLException {
         mPstmt = mConnection.prepareStatement(sql);
         int index = 1;
         if (params != null && !params.isEmpty()) {
@@ -78,14 +78,14 @@ public enum JDBC {
     }
 
     /**
-     * 数据库插入新数据(不重复插入)操作
+     * 数据库插入新数据(同步方法实现不重复插入)操作
      * 
      * @param sql
      * @param params
      * @return
      * @throws SQLException
      */
-    public boolean dbInsertBySQL(String sql, List<Object> params) throws SQLException {
+    public synchronized boolean dbInsertBySQL(String sql, List<Object> params) throws SQLException {
         // 根据微博content判断该微博是否已经存在
         String querySql = "select count(*) from weiboinfo where content = ?";
         mPstmt = mConnection.prepareStatement(querySql);

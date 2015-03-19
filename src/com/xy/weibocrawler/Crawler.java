@@ -28,30 +28,30 @@ public class Crawler {
 
     public static void main(String args[]) throws Exception {
 
-        // AnsjUtils.testAnsj();
+         AnsjUtils.testAnsj();
         // 初始化等待爬取url队列
-        for (String url : Constants.getUrlArr()) {
-            waitUrlList.offer(url);
-        }
-        // 初始化httpunit模块
-        WebClient wc = new WebClient();
-        initWebClient(wc);
-
-        JDBC.INSTANCE.getDbConnection();
-        // 多线程爬取线程池
-        ExecutorService pool = Executors.newFixedThreadPool(10);
-
-        while (!waitUrlList.isEmpty() || Thread.activeCount() > 1) {
-            if (waitUrlList.peek() != null) {
-                crawledUrlSet.add(waitUrlList.peek());
-                CrawlThread crawlThread = new CrawlThread(waitUrlList.poll(), wc);
-                pool.execute(crawlThread);
-                System.out.println("Thread.activeCount(): " + Thread.activeCount());
-            }
-
-        }
-        pool.shutdown();
-        JDBC.INSTANCE.dbClose();
+//        for (String url : Constants.getUrlArr()) {
+//            waitUrlList.offer(url);
+//        }
+//        // 初始化httpunit模块
+//        WebClient wc = new WebClient();
+//        initWebClient(wc);
+//
+//        JDBC.INSTANCE.getDbConnection();
+//        // 多线程爬取线程池
+//        ExecutorService pool = Executors.newFixedThreadPool(50);
+//
+//        while (!waitUrlList.isEmpty() || Thread.activeCount() > 3) {
+//            if (waitUrlList.peek() != null) {
+//                crawledUrlSet.add(waitUrlList.peek());
+//                CrawlThread crawlThread = new CrawlThread(waitUrlList.poll(), wc);
+//                pool.execute(crawlThread);
+//                System.out.println("Thread.activeCount(): " + Thread.activeCount());
+//            }
+//
+//        }
+//        pool.shutdown();
+//        JDBC.INSTANCE.dbClose();
 
         // HtmlClient.loginSinaWeibo(wc, Constants.URl_LOGIN);
 
