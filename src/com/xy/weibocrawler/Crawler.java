@@ -28,6 +28,7 @@ public class Crawler {
 
     public static void main(String args[]) throws Exception {
 
+    	AnsjUtils.userDefineLib();
          AnsjUtils.testAnsj();
         // 初始化等待爬取url队列
 //        for (String url : Constants.getUrlArr()) {
