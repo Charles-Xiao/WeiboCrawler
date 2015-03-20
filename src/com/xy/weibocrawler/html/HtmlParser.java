@@ -50,7 +50,7 @@ public class HtmlParser {
         Element vip = doc.select("a.icon_bed > em").first();
         if (vip != null && vip.attr("class").equals("W_icon icon_pf_approve")) {
             isVip = true;
-            System.out.println("vip用户");
+//            System.out.println("vip用户");
         }
 
         for (Element element : weiboDetails) {
@@ -60,13 +60,13 @@ public class HtmlParser {
             String nickName = divs.first().attr("nick-name");
             if (!nickName.equals("")) {
                 // 提取微博原创内容
-                System.out.println(nickName + "的原创微博");
+//                System.out.println(nickName + "的原创微博");
                 String content = divs.first().text();
-                System.out.println(content);
+//                System.out.println(content);
                 // 提取微博发布时间
                 Elements timeElements = docDetail.select("a[node-type=feed_list_item_date]");
                 String time = timeElements.last().attr("title");
-                System.out.println(time + "\r\n");
+//                System.out.println(time + "\r\n");
                 weibos.add(new Weibo(nickName, isVip, content, time, 0, 0, 0, 0, null));
             } else {
                 // TODO 是否爬取用户转发的微博的内容div.WB_feed_expand？？？
@@ -85,13 +85,6 @@ public class HtmlParser {
 
             Document doc = Jsoup.parse(html);
             urls = doc.getElementsByClass("page next S_txt1 S_line1");
-            // TODO 爬取下一页链接
-            // if (urls.size() > 0 && urls.last().text().equals("下一页")) {
-            // String nextUrl = baseUrl + urls.last().attr("href");
-            // urlList.add(nextUrl);
-            // System.out.println(nextUrl);
-            // }
-            // System.out.println("nextUrl: " + urls.size());
 
             // 获取转发的微博的原创用户链接
             urls = doc.select("a[node-type=feed_list_originNick]");
@@ -105,14 +98,16 @@ public class HtmlParser {
                 Document divDoc = Jsoup.parse(div.html());
                 urls = divDoc.select("a[class=S_txt1]");
                 for (Element element : urls) {
-                    urlList.add(element.attr("href"));
-                    // System.out.println(element.attr("href"));
+                    String similarUrl = element.attr("href");
+                    String indexUrl = similarUrl.split("\\?")[0];
+                    urlList.add(indexUrl);
+                    // System.out.println("相似用户url: " + indexUrl);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("当前页面爬取到的urlList size： " + urlList.size());
+        System.out.println("爬取到的新urlList size： " + urlList.size());
         return urlList;
     }
 }

@@ -30,10 +30,11 @@ public class AnsjUtils {
     	UserDefineLibrary.insertWord("毒豆芽", "UD_safety", 1000);
     	UserDefineLibrary.insertWord("潲水油", "UD_safety", 1000);
     	UserDefineLibrary.insertWord("酱腌菜", "UD_safety", 1000);
+    	UserDefineLibrary.insertWord("农药残留量", "UD_safety", 1000);
     	
     }
     public static void testAnsj() {
-        String str = "地沟油毒豆芽潲水油毒胶囊油炸食品酱腌菜黄花菜白萝卜胡萝卜含有酒牛乳很健康乳钙玉米奶皮革奶发酵乳复原乳干酪茅台果露酒假冒塑化剂染色胭脂红霉变甘蔗假鸡蛋假牛肉假鸭血乳钙食物中毒有毒早餐奶茅台优酸乳酸酸乳转基因蒙牛伊利奶制品乳制品红富士乳饮料婴幼儿奶粉保健食品食品保健地沟油油地沟果蔬蔬菜白菜青菜白萝卜萝卜梨子食品安全过期变质超标色素健康有害有利有损致癌标准监管掺假防腐剂质量问题";
+        String str = "很多人认为榨汁是最健康的食用水果的方式腊肠增加胃癌风险投诉无门以次充好灭菌奶地沟油毒豆芽潲水油毒胶囊油炸食品酱腌菜黄花菜白萝卜胡萝卜含有酒牛乳很健康乳钙玉米奶皮革奶发酵乳复原乳干酪茅台果露酒假冒塑化剂染色胭脂红霉变甘蔗假鸡蛋假牛肉假鸭血乳钙食物中毒有毒早餐奶茅台优酸乳酸酸乳转基因蒙牛伊利奶制品乳制品红富士乳饮料婴幼儿奶粉保健食品食品保健地沟油油地沟果蔬蔬菜白菜青菜白萝卜萝卜梨子食品安全过期变质超标色素健康有害有利有损致癌标准监管掺假防腐剂质量问题";
         Weibo weibo = new Weibo("xiao", true, str, "", 0, 0, 0, 0, null);
         List<Weibo> weibos = new ArrayList<>();
         weibos.add(weibo);
