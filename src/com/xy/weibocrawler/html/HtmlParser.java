@@ -40,37 +40,47 @@ public class HtmlParser {
      * 
      * @param html
      */
-    public static CopyOnWriteArrayList<Weibo> parseWeibo(String html) {
+    public synchronized static CopyOnWriteArrayList<Weibo> parseWeibo(String html) {
         CopyOnWriteArrayList<Weibo> weibos = new CopyOnWriteArrayList<>();
         boolean isVip = false;
         Elements weiboDetails = null;
         Document doc = Jsoup.parse(html);
         weiboDetails = doc.getElementsByClass("WB_detail");
         // 判断页面对应用户是否是认证用户
-        Element vip = doc.select("a.icon_bed > em").first();
-        if (vip != null && vip.attr("class").equals("W_icon icon_pf_approve")) {
-            isVip = true;
-//            System.out.println("vip用户");
+        Element pfPhoto = doc.getElementsByClass("pf_photo").first();
+        if (pfPhoto != null) {
+            Document pfDoc = Jsoup.parse(pfPhoto.outerHtml());
+            Element vip = pfDoc.select("a.icon_bed > em").first();
+            if (vip != null) {
+                if (vip.attr("class").equals("W_icon icon_pf_approve")) {
+                    isVip = true;
+                }
+                if (vip.attr("class").equals("W_icon icon_pf_approve_co")) {
+                    isVip = true;
+                }
+            }
         }
 
         for (Element element : weiboDetails) {
             String weiboDetailHtml = element.html();
             Document docDetail = Jsoup.parse(weiboDetailHtml);
             Elements divs = docDetail.getElementsByTag("div");
-            String nickName = divs.first().attr("nick-name");
-            if (!nickName.equals("")) {
-                // 提取微博原创内容
-//                System.out.println(nickName + "的原创微博");
-                String content = divs.first().text();
-//                System.out.println(content);
-                // 提取微博发布时间
-                Elements timeElements = docDetail.select("a[node-type=feed_list_item_date]");
-                String time = timeElements.last().attr("title");
-//                System.out.println(time + "\r\n");
-                weibos.add(new Weibo(nickName, isVip, content, time, 0, 0, 0, 0, null));
-            } else {
-                // TODO 是否爬取用户转发的微博的内容div.WB_feed_expand？？？
-
+            if (divs.first() != null) {
+                String nickName = divs.first().attr("nick-name");
+                if (!nickName.equals("")) {
+                    // 提取微博原创内容
+                    // System.out.println(nickName + "的原创微博");
+                    String content = divs.first().text();
+                    // System.out.println(content);
+                    // 提取微博发布时间
+                    Elements timeElements = docDetail.select("a[node-type=feed_list_item_date]");
+                    String time = null;
+                    if (timeElements != null && timeElements.size() > 0) {
+                        time = timeElements.last().attr("title");
+                    }
+                    // System.out.println(time + "\r\n");
+                    weibos.add(new Weibo(nickName, isVip, content, time, 0, 0, 0, 0, null));
+                }
             }
 
         }

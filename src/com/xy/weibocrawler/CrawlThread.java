@@ -27,7 +27,6 @@ public class CrawlThread extends Thread {
             html = HtmlClient.getHTMLByUnit(wc, url);
             List<Weibo> weibos = HtmlParser.parseWeibo(html);
             AnsjUtils.getKeywordsNum(weibos);
-            // url剪枝 --- 如果用户所有原创微博中没有一条主题相关微博，则不再爬取它产生的新url
 
             // 数据库插入主题相关微博
             String sql = "insert into weiboinfo (name,vip,content,time,fruitnum,winenum,milknum,safetynum,category) values (?,?,?,?,?,?,?,?,?)";
@@ -37,6 +36,7 @@ public class CrawlThread extends Thread {
                 }
 
             }
+            // url剪枝 --- 如果用户所有原创微博中没有一条主题相关微博，则不再爬取它产生的新url
             if (weibos.size() > 0) {
                 List<String> urls = HtmlParser.parseUrls(html);
                 // 去除重复和已经爬取过的url,有效url加入waitUrlList
@@ -50,7 +50,6 @@ public class CrawlThread extends Thread {
                 }
             }
 
-//            System.out.println("run() currentThreadName: " + Thread.currentThread().getName());
         } catch (Exception e) {
             e.printStackTrace();
         }
