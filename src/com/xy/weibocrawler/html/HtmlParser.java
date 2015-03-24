@@ -40,7 +40,7 @@ public class HtmlParser {
      * 
      * @param html
      */
-    public synchronized static CopyOnWriteArrayList<Weibo> parseWeibo(String html) {
+    public static CopyOnWriteArrayList<Weibo> parseWeibo(String html) {
         CopyOnWriteArrayList<Weibo> weibos = new CopyOnWriteArrayList<>();
         boolean isVip = false;
         Elements weiboDetails = null;

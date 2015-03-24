@@ -28,7 +28,7 @@ public class HtmlClient {
      * @return
      * @throws Exception
      */
-    public synchronized static String getHTMLByUnit(WebClient wc, String url) throws Exception {
+    public static String getHTMLByUnit(WebClient wc, String url) throws Exception {
 
         HtmlPage initPage = wc.getPage(url);
         String domain = getMatcher("domain']='([\\d]+)", initPage.asXml());
