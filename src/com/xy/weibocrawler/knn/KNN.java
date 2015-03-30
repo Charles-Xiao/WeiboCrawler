@@ -20,26 +20,26 @@ public class KNN {
      * @return
      */
     public String startKnn(List<List<Double>> TrainTuples, List<Double> testTuple, int k) {
-        PriorityQueue<KNNTuple> pq = new PriorityQueue<KNNTuple>(k, comparator);
+        PriorityQueue<KNNTuple> priorityQueue = new PriorityQueue<KNNTuple>(k, comparator);
         List<Integer> randNum = getRandKNum(k, TrainTuples.size());
         for (int i = 0; i < k; i++) {
             int index = randNum.get(i);
             List<Double> currData = TrainTuples.get(index);
             String c = currData.get(currData.size() - 1).toString();
             KNNTuple node = new KNNTuple(index, calDistance(testTuple, currData), c);
-            pq.add(node);
+            priorityQueue.add(node);
         }
         for (int i = 0; i < TrainTuples.size(); i++) {
             List<Double> t = TrainTuples.get(i);
             double distance = calDistance(testTuple, t);
-            KNNTuple top = pq.peek();
+            KNNTuple top = priorityQueue.peek();
             if (top.getDistance() > distance) {
-                pq.remove();
-                pq.add(new KNNTuple(i, distance, t.get(t.size() - 1).toString()));
+                priorityQueue.remove();
+                priorityQueue.add(new KNNTuple(i, distance, t.get(t.size() - 1).toString()));
             }
         }
 
-        return getMostClass(pq);
+        return getMostClass(priorityQueue);
     }
 
     /**
