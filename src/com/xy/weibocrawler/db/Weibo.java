@@ -1,119 +1,125 @@
+
 package com.xy.weibocrawler.db;
 
 public class Weibo {
-	/** 微博用户昵称 */
-	private String mUserName;
-	/** 微博用户是否为大V */
-	private boolean mIsUserVip;
-	/** 微博内容 */
-	private String mContent;
-	/** 微博发布时间 */
-	private String mTime;
-	/** 微博果蔬类关键词数目 */
-	private int mFruitNum;
-	/** 微博酒类关键词数目 */
-	private int mWineNum;
-	/** 微博乳制品类关键词数目 */
-	private int mMilkNum;
-	/** 微博食品安全关键词数目 */
-	private int mSafetyNum;
-	/** 微博所属种类：fruit/wine/milk */
-	private String mCategory;
+    /** 微博用户昵称 */
+    private String mUserName;
 
-	public Weibo(String mUserName, boolean mIsUserVip,
-			String mContent, String mTime, int mFruitNum, int mWineNum,
-			int mMilkNum, int mSafetyNum, String mCategory) {
-		this.mUserName = mUserName;
-		this.mIsUserVip = mIsUserVip;
-		this.mContent = mContent;
-		this.mTime = mTime;
-		this.mFruitNum = mFruitNum;
-		this.mWineNum = mWineNum;
-		this.mMilkNum = mMilkNum;
-		this.mSafetyNum = mSafetyNum;
-		this.mCategory = mCategory;
-	}
+    /** 微博用户是否为大V */
+    private boolean mIsUserVip;
 
-	public String getmUserName() {
-		return mUserName;
-	}
+    /** 微博内容 */
+    private String mContent;
 
-	public void setmUserName(String mUserName) {
-		this.mUserName = mUserName;
-	}
+    /** 微博发布时间 */
+    private String mTime;
 
-	public boolean ismIsUserVip() {
-		return mIsUserVip;
-	}
+    /** 微博果蔬类关键词数目 */
+    private int mFruitNum;
 
-	public void setmIsUserVip(boolean mIsUserVip) {
-		this.mIsUserVip = mIsUserVip;
-	}
+    /** 微博酒类关键词数目 */
+    private int mWineNum;
 
-	public String getmContent() {
-		return mContent;
-	}
+    /** 微博乳制品类关键词数目 */
+    private int mMilkNum;
 
-	public void setmContent(String mContent) {
-		this.mContent = mContent;
-	}
+    /** 微博食品安全关键词数目 */
+    private int mSafetyNum;
 
-	public String getmTime() {
-		return mTime;
-	}
+    /** 微博所属种类：fruit/wine/milk ---> 1/2/3 */
+    private String mCategory;
 
-	public void setmTime(String mTime) {
-		this.mTime = mTime;
-	}
+    public Weibo(String mUserName, boolean mIsUserVip, String mContent, String mTime,
+            int mFruitNum, int mWineNum, int mMilkNum, int mSafetyNum, String mCategory) {
+        this.mUserName = mUserName;
+        this.mIsUserVip = mIsUserVip;
+        this.mContent = mContent;
+        this.mTime = mTime;
+        this.mFruitNum = mFruitNum;
+        this.mWineNum = mWineNum;
+        this.mMilkNum = mMilkNum;
+        this.mSafetyNum = mSafetyNum;
+        this.mCategory = mCategory;
+    }
 
-	public int getmFruitNum() {
-		return mFruitNum;
-	}
+    public String getmUserName() {
+        return mUserName;
+    }
 
-	public void setmFruitNum(int mFruitNum) {
-		this.mFruitNum = mFruitNum;
-	}
+    public void setmUserName(String mUserName) {
+        this.mUserName = mUserName;
+    }
 
-	public int getmWineNum() {
-		return mWineNum;
-	}
+    public boolean ismIsUserVip() {
+        return mIsUserVip;
+    }
 
-	public void setmWineNum(int mWineNum) {
-		this.mWineNum = mWineNum;
-	}
+    public void setmIsUserVip(boolean mIsUserVip) {
+        this.mIsUserVip = mIsUserVip;
+    }
 
-	public int getmMilkNum() {
-		return mMilkNum;
-	}
+    public String getmContent() {
+        return mContent;
+    }
 
-	public void setmMilkNum(int mMilkNum) {
-		this.mMilkNum = mMilkNum;
-	}
+    public void setmContent(String mContent) {
+        this.mContent = mContent;
+    }
 
-	public int getmSafetyNum() {
-		return mSafetyNum;
-	}
+    public String getmTime() {
+        return mTime;
+    }
 
-	public void setmSafetyNum(int mSafetyNum) {
-		this.mSafetyNum = mSafetyNum;
-	}
+    public void setmTime(String mTime) {
+        this.mTime = mTime;
+    }
 
-	public String getmCategory() {
-		return mCategory;
-	}
+    public int getmFruitNum() {
+        return mFruitNum;
+    }
 
-	public void setmCategory(String mCategory) {
-		this.mCategory = mCategory;
-	}
+    public void setmFruitNum(int mFruitNum) {
+        this.mFruitNum = mFruitNum;
+    }
 
-	@Override
-	public String toString() {
-		return "Weibo [mUserName=" + mUserName
-				+ ", mIsUserVip=" + mIsUserVip + ", mContent=" + mContent
-				+ ", mTime=" + mTime + ", mFruitNum=" + mFruitNum
-				+ ", mWineNum=" + mWineNum + ", mMilkNum=" + mMilkNum
-				+ ", mSafetyNum=" + mSafetyNum + ", mCategory=" + mCategory
-				+ "]";
-	}
+    public int getmWineNum() {
+        return mWineNum;
+    }
+
+    public void setmWineNum(int mWineNum) {
+        this.mWineNum = mWineNum;
+    }
+
+    public int getmMilkNum() {
+        return mMilkNum;
+    }
+
+    public void setmMilkNum(int mMilkNum) {
+        this.mMilkNum = mMilkNum;
+    }
+
+    public int getmSafetyNum() {
+        return mSafetyNum;
+    }
+
+    public void setmSafetyNum(int mSafetyNum) {
+        this.mSafetyNum = mSafetyNum;
+    }
+
+    public String getmCategory() {
+        return mCategory;
+    }
+
+    public void setmCategory(String mCategory) {
+        this.mCategory = mCategory;
+    }
+
+    @Override
+    public String toString() {
+        return "Weibo [mUserName=" + mUserName + ", mIsUserVip=" + mIsUserVip + ", mContent="
+                + mContent + ", mTime=" + mTime + ", mFruitNum=" + mFruitNum + ", mWineNum="
+                + mWineNum + ", mMilkNum=" + mMilkNum + ", mSafetyNum=" + mSafetyNum
+                + ", mCategory=" + mCategory + "]";
+    }
 
 }

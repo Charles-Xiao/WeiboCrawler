@@ -10,16 +10,18 @@ import java.util.PriorityQueue;
 
 /**
  * @author xiaoyong
- *
  */
 public class KNN {
     /**
+     * KNN分类
+     * 
      * @param TrainTuples
      * @param testTuple
      * @param k
      * @return
      */
     public String startKnn(List<List<Double>> TrainTuples, List<Double> testTuple, int k) {
+        // 优先队列存储近邻元素
         PriorityQueue<KNNTuple> priorityQueue = new PriorityQueue<KNNTuple>(k, comparator);
         List<Integer> randNum = getRandKNum(k, TrainTuples.size());
         for (int i = 0; i < k; i++) {
@@ -46,8 +48,8 @@ public class KNN {
      * 设置优先级队列的比较函数，距离越大，优先级越高
      */
     private Comparator<KNNTuple> comparator = new Comparator<KNNTuple>() {
-        public int compare(KNNTuple o1, KNNTuple o2) {
-            if (o1.getDistance() >= o2.getDistance()) {
+        public int compare(KNNTuple t1, KNNTuple t2) {
+            if (t1.getDistance() >= t2.getDistance()) {
                 return 1;
             } else {
                 return 0;
@@ -90,11 +92,9 @@ public class KNN {
         return distance;
     }
 
-    /**
-     * 获取所得到的k个最近邻元组的多数类
-     * 
-     * @param pq 存储k个最近近邻元组的优先级队列
-     * @return 多数类的名称
+    /** 获取所得到的k个最近邻元组的多数类
+     * @param pq
+     * @return
      */
     private String getMostClass(PriorityQueue<KNNTuple> pq) {
         Map<String, Integer> classCount = new HashMap<String, Integer>();

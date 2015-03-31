@@ -62,16 +62,17 @@ public enum JDBC {
      * 更新数据库某条记录
      * 
      * @param sql
-     * @param params
+     * @param updateParams
      * @return
      * @throws SQLException
      */
-    public synchronized boolean dbUpdateBySQL(String sql, List<Object> params) throws SQLException {
+    public synchronized boolean dbUpdateBySQL(String sql, List<String> updateParams)
+            throws SQLException {
         mPstmt = mConnection.prepareStatement(sql);
         int index = 1;
-        if (params != null && !params.isEmpty()) {
-            for (int i = 0; i < params.size(); i++) {
-                mPstmt.setObject(index++, params.get(i));
+        if (updateParams != null && !updateParams.isEmpty()) {
+            for (int i = 0; i < updateParams.size(); i++) {
+                mPstmt.setObject(index++, updateParams.get(i));
             }
         }
         return (mPstmt.executeUpdate() > 0) ? true : false;
@@ -145,18 +146,18 @@ public enum JDBC {
      * 利用SQL语句查询多条数据
      * 
      * @param sql
-     * @param params
+     * @param queryParams
      * @return
      * @throws SQLException
      */
-    public List<Map<String, Object>> dbSelectMultiData(String sql, List<Object> params)
+    public List<Map<String, Object>> dbSelectMultiData(String sql, List<String> queryParams)
             throws SQLException {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         int index = 1;
         mPstmt = mConnection.prepareStatement(sql);
-        if (params != null && !params.isEmpty()) {
-            for (int i = 0; i < params.size(); i++) {
-                mPstmt.setObject(index++, params.get(i));
+        if (queryParams != null && !queryParams.isEmpty()) {
+            for (int i = 0; i < queryParams.size(); i++) {
+                mPstmt.setObject(index++, queryParams.get(i));
             }
         }
         mResultSet = mPstmt.executeQuery();
