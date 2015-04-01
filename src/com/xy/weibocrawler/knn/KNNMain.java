@@ -36,24 +36,24 @@ public class KNNMain {
 
         for (Map<String, Object> map : trainList) {
             List<Double> list = new ArrayList<Double>();
-            list.add(Double.parseDouble((String) map.get(FRUITNUM)));
-            list.add(Double.parseDouble((String) map.get(WINENUM)));
-            list.add(Double.parseDouble((String) map.get(MILKNUM)));
+            list.add(Double.parseDouble(map.get(FRUITNUM).toString()));
+            list.add(Double.parseDouble(map.get(WINENUM).toString()));
+            list.add(Double.parseDouble(map.get(MILKNUM).toString()));
             list.add((double) category2Int((String) map.get(CATEGORY)));
             trainTuples.add(list);
         }
 
         for (Map<String, Object> map : testList) {
             List<Double> list = new ArrayList<Double>();
-            list.add(Double.parseDouble((String) map.get(FRUITNUM)));
-            list.add(Double.parseDouble((String) map.get(WINENUM)));
-            list.add(Double.parseDouble((String) map.get(MILKNUM)));
+            list.add(Double.parseDouble(map.get(FRUITNUM).toString()));
+            list.add(Double.parseDouble(map.get(WINENUM).toString()));
+            list.add(Double.parseDouble(map.get(MILKNUM).toString()));
             testTuples.add(list);
         }
 
         for (int i = 0; i < testTuples.size(); i++) {
             int category = Math.round(Float.parseFloat((knn.startKnn(trainTuples,
-                    testTuples.get(i), 3))));
+                    testTuples.get(i), 30))));
             // update数据库category字段
             String content = (String) testList.get(i).get(CONTENT);
             List<String> updateParams = new ArrayList<String>();
